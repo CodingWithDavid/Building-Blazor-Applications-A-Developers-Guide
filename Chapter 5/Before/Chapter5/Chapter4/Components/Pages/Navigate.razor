@@ -1,0 +1,26 @@
+﻿@page "/navigate"
+
+@inject NavigationManager Navigation
+
+
+<h3>Programmatic Navigate</h3>
+
+<button @onclick="NavigateToCounter">Go To Counter</button>
+
+@code {
+
+    private void NavigateToCounter()
+    {
+        Navigation.NavigateTo("/counter");
+    }
+
+    protected override void OnInitialized() => Navigation.LocationChanged += OnLocationChanged;
+
+    private void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        Console.WriteLine($"Location changed to {e.Location}");
+    }
+
+    public void Dispose() => Navigation.LocationChanged -= OnLocationChanged;
+
+}

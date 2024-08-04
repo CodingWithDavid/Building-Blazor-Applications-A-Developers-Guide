@@ -1,0 +1,22 @@
+﻿@page "/item/{id:int}"
+
+@inject NavigationManager Navigation
+
+<h3>Items Details</h3>
+
+<p>Item ID: @Id</p>
+<p>Item Message: @randomMessage</p>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private string randomMessage = string.Empty;
+
+    protected override void OnParametersSet()
+    {
+        randomMessage = $"The Number you entered is: {Id}";
+    }
+
+}

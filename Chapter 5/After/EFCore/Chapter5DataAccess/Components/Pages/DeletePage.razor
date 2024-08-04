@@ -1,0 +1,42 @@
+﻿@page "/deleteproduct/{id:int}"
+
+@using Chapter5DataAccess.Data
+@using Chapter5DataAccess.Models
+
+@inject ApplicationDbContext DbContext
+@inject NavigationManager Navigation
+
+<h3>Delete Product</h3>
+
+@if (product == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>Are you sure you want to delete the product <strong>@product.ProductName</strong>?</p>
+    <button @onclick="HandleDelete">Delete</button>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Product product = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await DbContext.Products.FindAsync(Id);
+        if (product == null)
+        {
+            // Handle product not found, e.g., navigate to an error page
+        }
+    }
+
+    private async Task HandleDelete()
+    {
+        DbContext.Products.Remove(product);
+        await DbContext.SaveChangesAsync();
+        Navigation.NavigateTo("/products");
+    }
+}

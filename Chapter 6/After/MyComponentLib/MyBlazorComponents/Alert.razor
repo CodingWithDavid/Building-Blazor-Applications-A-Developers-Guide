@@ -1,0 +1,13 @@
+﻿<!-- Alert.razor -->
+@namespace MyBlazorComponents
+@code {
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [Parameter]
+    public string CssClass { get; set; } = "alert alert-info";
+}
+
+<div class="@CssClass">
+    @Message
+</div>

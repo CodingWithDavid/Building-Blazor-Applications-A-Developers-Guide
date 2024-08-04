@@ -1,0 +1,11 @@
+﻿@page "/name"
+
+<h3>Enter Your Name</h3>
+
+<input @bind="userName" />
+
+<p>Hello, @userName!</p>
+
+@code {
+    private string userName = "";
+}

@@ -1,0 +1,34 @@
+﻿@page "/addproduct"
+
+@using Chapter5DataAccess.Data
+@using Chapter5DataAccess.Models
+
+@inject ApplicationDbContext DbContext
+
+<h3>Add Product</h3>
+
+<EditForm Model="newProduct" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Name: </label>
+        <InputText @bind-Value="newProduct.ProductName" />
+    </div>
+    <div>
+        <label>Price: </label>
+        <InputNumber @bind-Value="newProduct.Price" />
+    </div>
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private Product newProduct = new Product();
+
+    private async Task HandleValidSubmit()
+    {
+        DbContext.Products.Add(newProduct);
+        await DbContext.SaveChangesAsync();
+        // Handle success
+    }
+}

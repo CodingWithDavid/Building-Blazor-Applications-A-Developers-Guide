@@ -1,0 +1,42 @@
+﻿@page "/lifecycle"
+
+<h3>Life Cycle</h3>
+
+<p>@initMessage</p>
+<p>@ParameterMessage</p>
+<p>@firstRenderMessage</p>
+<p>@secondRenderMessage</p>
+
+@code {
+    private string initMessage = "";
+    private string ParameterMessage = "";
+    private string firstRenderMessage = "";
+    private string secondRenderMessage = "";
+
+
+    protected override void OnInitialized()
+    {
+        initMessage = "We are intiialing";
+    }
+
+    protected override void OnParametersSet()
+    {
+        ParameterMessage = "We are setting the parameters";
+        StateHasChanged();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+        {
+            firstRenderMessage = "First rendering";
+            StateHasChanged();
+        }
+        else
+        {
+            secondRenderMessage = "Normal rending";
+            StateHasChanged();
+        }
+    }
+
+}

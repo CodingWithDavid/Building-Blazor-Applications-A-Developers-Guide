@@ -1,0 +1,56 @@
+﻿@page "/addproduct"
+@using Chapter5.Models
+@inject HttpClient Http
+
+<h3>Add Product</h3>
+
+@if (isSubmitting)
+{
+    <p><em>Submitting...</em></p>
+}
+else
+{
+    <EditForm Model="newProduct" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label>Name: </label>
+            <InputText @bind-Value="newProduct.Name" />
+        </div>
+        <div>
+            <label>Price: </label>
+            <InputNumber @bind-Value="newProduct.Price" />
+        </div>
+        <button type="submit">Submit</button>
+    </EditForm>
+
+    <p><em>@addMessage</em></p>
+}
+
+@code {
+    private Product newProduct = new Product();
+    private bool isSubmitting = false;
+    private string @addMessage = "";
+
+    private async Task HandleValidSubmit()
+    {
+        isSubmitting = true;
+        addMessage = "";
+        var response = await Http.PostAsJsonAsync("https://localhost:7106/api/products", newProduct);
+        isSubmitting = false;
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Product added successfully");
+            newProduct = new();
+            addMessage = "Product added successfully";
+        }
+        else
+        {
+            // Handle error response
+            Console.WriteLine("Error adding product");
+            addMessage = "Error adding product";
+        }
+    }
+}

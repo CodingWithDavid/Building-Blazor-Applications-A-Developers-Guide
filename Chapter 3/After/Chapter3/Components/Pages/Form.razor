@@ -1,0 +1,31 @@
+﻿@page "/simpleform"
+
+@using System.ComponentModel.DataAnnotations
+
+<h3>Simple Form</h3>
+
+<form>
+    <div>
+        <label for="name">Name:</label>
+        <input id="name" @bind="name" class="form-control" />
+    </div>
+
+    <div>
+        <label for="age">Age:</label>
+        <input id="age" @bind="age" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" @onclick="HandleValidSubmit">Submit</button>
+</form>
+
+@code {
+
+    private string name { get; set; } = string.Empty;
+    private int age { get; set; }
+
+    private void HandleValidSubmit()
+    {
+        // Handle the form submission here (e.g., save data, call an API, etc.)
+        Console.WriteLine($"Submitted: Name = {name}, Age = {age}");
+    }
+}

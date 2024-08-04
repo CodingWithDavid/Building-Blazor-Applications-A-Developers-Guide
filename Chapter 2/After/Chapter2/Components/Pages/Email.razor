@@ -1,0 +1,15 @@
+﻿@page "/email"
+
+<h3>Enter Your Email</h3>
+<input @bind="email" />
+
+@if(!IsValidEmail(email))
+{
+    <p style="color:red;">Please enter a valid email address. </p>
+}
+
+@code {
+    private string email = "";
+
+    private bool IsValidEmail(string email) => !string.IsNullOrEmpty(email) && email.Contains("@");
+}

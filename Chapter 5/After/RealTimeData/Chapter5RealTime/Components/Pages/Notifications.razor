@@ -1,0 +1,39 @@
+﻿@page "/notifications"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+
+<h3>Notifications</h3>
+
+<ul>
+    @foreach (var notification in notifications)
+    {
+        <li>@notification</li>
+    }
+</ul>
+
+@code {
+    private HubConnection hubConnection;
+    private List<string> notifications = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/notificationhub"))
+            .Build();
+
+        hubConnection.On<string>("ReceiveNotification", (message) =>
+        {
+            notifications.Add(message);
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        await hubConnection.DisposeAsync();
+    }
+}

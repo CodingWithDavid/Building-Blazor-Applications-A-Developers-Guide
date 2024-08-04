@@ -1,0 +1,48 @@
+﻿@page "/products"
+
+@using Chapter5DataAccess.Data
+@using Chapter5DataAccess.Models
+@using Microsoft.EntityFrameworkCore;
+
+
+@inject ApplicationDbContext DbContext
+@inject NavigationManager navManager
+
+<h3>Product List</h3>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var product in products)
+        {
+            <li>@product.ProductName - @product.Price</li>
+        }
+    </ul>
+
+    <button type="button" style="margin-top:10px;" @onclick="EditProduct">Edit</button>
+    <button type="button" style="margin-top:10px;" @onclick="DeleteProduct">Delete</button>
+
+}
+
+@code {
+    private List<Product> products = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await DbContext.Products.ToListAsync();
+    }
+
+    private void EditProduct()
+    {
+        navManager.NavigateTo("/editproduct/1");
+    }
+
+    private void DeleteProduct()
+    {
+        navManager.NavigateTo("/deleteproduct/1");
+    }
+}

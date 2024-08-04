@@ -1,0 +1,44 @@
+﻿@page "/validation"
+
+@using System.ComponentModel.DataAnnotations
+@using Chapter3.Models
+
+<h3>Simple Form</h3>
+
+<EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+
+    <div>
+        <label for="name">Name:</label>
+        <input id="name" @bind="model.Name" class="form-control" />
+        <ValidationMessage For="@(() => model.Name)" />
+    </div>
+
+    <div>
+        <label for="age">Age:</label>
+        <input id="age" type="number" @bind="model.Age" class="form-control" />
+        <ValidationMessage For="@(() => model.Age)" />
+    </div>
+
+    <div>
+        <label for="custom">Custom Value:</label>
+        <input id="custom" @bind="model.CustomizeValue" class="form-control" />
+        <ValidationMessage For="@(() => model.CustomizeValue)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-5">Submit</button>
+</EditForm>
+
+@code {
+
+    private UserModel model = new();
+
+    private void HandleValidSubmit()
+    {
+        // Handle the form submission here (e.g., save data, call an API, etc.)
+        Console.WriteLine($"Submitted: Name = {model.Name}, Age = {model.Age}, Custom = {model.CustomizeValue}");
+    }
+}

@@ -1,0 +1,18 @@
+﻿@page "/example"
+@inject IJSRuntime JS
+
+<button @onclick="ShowAlert">Show Alert</button>
+<button @onclick="AddNumbers">Add Numbers</button>
+
+@code {
+    private async Task ShowAlert()
+    {
+        await JS.InvokeVoidAsync("showAlert", "Hello from Blazor!");
+    }
+
+    private async Task AddNumbers()
+    {
+        var result = await JS.InvokeAsync<int>("addNumbers", 5, 10);
+        Console.WriteLine($"Result: {result}");
+    }
+}

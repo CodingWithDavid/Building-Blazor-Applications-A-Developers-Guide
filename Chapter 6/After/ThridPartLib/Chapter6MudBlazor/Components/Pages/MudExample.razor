@@ -1,0 +1,18 @@
+﻿@page "/mudexample"
+
+@using MudBlazor
+
+@inject IDialogService DialogService
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ShowDialog">
+    Show Dialog
+</MudButton>
+
+@code {
+    private async Task ShowDialog()
+    {
+        var parameters = new DialogParameters { ["ContentText"] = "This is a MudBlazor dialog." };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium };
+        await DialogService.ShowAsync<MudDialog>("Dialog Title", parameters, options);
+    }
+}
